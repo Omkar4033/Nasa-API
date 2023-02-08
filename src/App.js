@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
-
+import Loadergif from './loader.gif';
 
 const App = () => {
   const [data, setData] = useState([]);
+  const [loader,setLoader]=useState(true)
   useEffect(() => {
+      setLoader(true);
       const getimage = async () => {
         const response = await fetch(
           "https://api.nasa.gov/planetary/apod?api_key=vj2tY3RpTPOBtZGvl5d2lbqWF3215XnAtumLvcih"
           );
           const res = await response.json();
           setData(res);  
-          
+          setLoader(false);
         };
     getimage();
 
@@ -19,6 +21,10 @@ const App = () => {
   }, []);
 
   return (
+    <div>
+    {loader ? <div className="bg-black " >
+      <img src={Loadergif} alt="" className="text-center" />
+    </div> :
     <div className="flex-col bg-cover w-screen h-screen text-white" style={{backgroundImage: `url(${data.url})`}}   >
       
       <div>
@@ -53,6 +59,7 @@ const App = () => {
       </div>
       <footer className="text-white bottom-2 text-center
        text-xl">Copyright@Omkar Raghu</footer>
+    </div> }
     </div>
   );
 };
